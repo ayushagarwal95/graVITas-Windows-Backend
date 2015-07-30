@@ -1,35 +1,33 @@
 'use strict';
 
 var path = require('path');
-var file = require(path.join(__dirname, '..', 'data', 'data')).list;
+var events = require(path.join(__dirname, '..', 'data', 'data')).events;
 
 exports.get = function (data, callback) {
-    if (data.header === process.env.AUTHORIZED_HEADER) {
-        if (data.version === file.version) {
+    if (data.auth.username === process.env.USERNAME && data.auth.password === process.env.PASSWORD) {
+        if (data.version === events.version) {
             var doc = {
-                header: data.header,
-                status: 1,
+                status: 2,
                 data: null,
-                message: 'Your data version is the latest one'
+                message: 'no change'
             };
             callback(null, doc);
         }
         else {
             var doc = {
-                header: data.header,
-                status: 0,
+                status: 1,
                 data: file,
-                message: 'Successful Refresh'
+                message: 'success',
+                events: events
             };
             callback(null, doc);
         }
     }
     else {
         var doc = {
-            header: data.header,
             data: null,
-            status: 404,
-            message: 'Unauthorized Access'
+            status: 0,
+            message: 'server error'
         };
         callback(null, doc);
     }

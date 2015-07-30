@@ -1,4 +1,4 @@
-exports.list = {
-    
-    version:
+exports.events = {
+    data_version:
+    details:
 };

@@ -8,8 +8,11 @@ var dataFetch = require(path.join(__dirname, '..', 'api', 'data'));
 router.post('/', function(request, response) {
 
   var data = {
-      header: request.body.auth,
-      version:  request.body.version
+      auth: {
+          username: request.body.username,
+          password: request.body.password
+      },
+      version: request.body.data_version
   };
   var onGet = function (err, result) {
       response.json(result);
